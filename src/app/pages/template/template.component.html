@@ -67,6 +67,30 @@
     </div>
 
     <div class="form-group row">
+        <label class="col-2 col-form-label">País</label>
+        <div class="col-8">
+            <select 
+                class="form-control"
+                [ngClass]="{'is-invalid': countrie.touched && countrie.invalid, 'is-valid': countrie.valid}"
+                [(ngModel)]="user.countrie"
+                name="countrie"
+                required
+                #countrie="ngModel">
+                <option value="" disabled>Seleccione un país</option>
+                <option 
+                    *ngFor="let countrie of countries"
+                    [value]="countrie.code"
+                    [disabled]="countries.length === 0">
+                    {{countrie.name}} ({{countrie.code}})
+                </option>
+            </select>
+            <div class="invalid-feedback">
+                <span *ngIf="countrie.errors?.required">Este campo es requerido</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label class="col-2 col-form-label">&nbsp;</label>
         <div class="input-group col-md-8">
         <button type="submit" class="btn btn-outline-primary btn-block">

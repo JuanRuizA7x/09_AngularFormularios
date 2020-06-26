@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CountriesService } from '../../services/countries.service';
+import { CountrieModel } from '../../models/countrie.model';
 
 @Component({
   selector: 'app-template',
@@ -12,12 +14,16 @@ export class TemplateComponent implements OnInit {
   user = {
     name: '',
     lastName: '',
-    email: ''
+    email: '',
+    countrie: ''
   };
 
-  constructor() { }
+  countries: CountrieModel[] = [];
+
+  constructor( private countriesService: CountriesService ) { }
 
   ngOnInit(): void {
+    this.countriesService.getCountries().subscribe(countries => this.countries = countries);
   }
 
   save( form: NgForm) {
@@ -26,6 +32,7 @@ export class TemplateComponent implements OnInit {
       Object.values(form.controls).forEach(control => {
           control.markAllAsTouched();
       });
+      return;
     }
     console.log(form);
     console.log(form.value);

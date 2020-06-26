@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TemplateComponent } from './pages/template/template.component';
 import { ReactiveComponent } from './pages/reactive/reactive.component';
 import { compileNgModuleFromRender2 } from '@angular/compiler/src/render3/r3_module_compiler';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { compileNgModuleFromRender2 } from '@angular/compiler/src/render3/r3_mod
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
