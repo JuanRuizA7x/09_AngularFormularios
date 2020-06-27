@@ -1,29 +1,69 @@
 <h4>Formularios <small> Reactive </small></h4>
-<hr>
-<form autocomplete="off">
-
+<hr />
+<form autocomplete="off" [formGroup]="formReactive" (ngSubmit)="save()">
   <div>
-
     <div class="form-group row">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
-        <input class="form-control" type="text" placeholder="Nombre">
+        <input
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': isInvalid('name'),
+            'is-valid': isValid('name')
+          }"
+          type="text"
+          placeholder="Nombre"
+          formControlName="name"
+        />
+        <div class="invalid-feedback">
+          <span *ngIf="formReactive.get('name').errors?.required">Este campo es requerido</span>
+          <span *ngIf="formReactive.get('name').errors?.minlength">
+            El nombre debe contener al menos 3 caracteres
+          </span>
+        </div>
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-2 col-form-label">Apellido</label>
       <div class="col-8">
-        <input class="form-control" type="text" placeholder="Apellido">
+        <input
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': isInvalid('lastName'),
+            'is-valid': isValid('lastName')
+          }"
+          type="text"
+          placeholder="Apellido"
+          formControlName="lastName"
+        />
+        <div class="invalid-feedback">
+          <span *ngIf="formReactive.get('lastName').errors?.required">Este campo es requerido</span>
+          <span *ngIf="formReactive.get('lastName').errors?.minlength">
+            El apellido debe contener al menos 3 caracteres
+          </span>
+        </div>
       </div>
     </div>
-
   </div>
 
   <div class="form-group row">
     <label class="col-2 col-form-label">Email</label>
     <div class="col-8">
-      <input class="form-control" type="email" placeholder="Email">
+      <input
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': isInvalid('email'),
+          'is-valid': isValid('email')
+        }"
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+      />
+      <div class="invalid-feedback">
+        <span *ngIf="formReactive.get('email').errors?.required">Este campo es requerido</span>
+        <span *ngIf="formReactive.get('email').errors?.pattern">Formato de email inválido</span>
+      </div>
     </div>
   </div>
 
@@ -35,5 +75,14 @@
       </button>
     </div>
   </div>
-
 </form>
+
+<hr />
+
+<pre>
+  Valid form: {{formReactive.valid}}
+  <br>
+  Status: {{formReactive.status}}
+  <br>
+  {{formReactive.value | json}}
+</pre>
