@@ -67,6 +67,129 @@
     </div>
   </div>
 
+  <div formGroupName="address">
+    <div class="form-group row">
+      <label class="col-2 col-form-label">País</label>
+      <div class="col-8">
+        <select
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': isInvalid('address', 'countrie'),
+            'is-valid': isValid('address', 'countrie')
+          }"
+          formControlName="countrie"
+          >
+          <option value="" disabled selected>Seleccione un país</option>
+          <option
+            *ngFor="let countrie of countries"
+            [value]="countrie.code"
+            [disabled]="countries.length === 0"
+          >
+            {{ countrie.name }} ({{ countrie.code }})
+          </option>
+        </select>
+        <div class="invalid-feedback">
+          Este campo es requerido
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Departamento</label>
+      <div class="col-8">
+        <input
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': isInvalid('address', 'department'),
+            'is-valid': isValid('address', 'department')
+          }"
+          type="text"
+          placeholder="Departamento"
+          formControlName="department"
+        />
+        <div class="invalid-feedback">
+          Este campo es requerido
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Ciudad</label>
+      <div class="col-8">
+        <input
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': isInvalid('address', 'city'),
+            'is-valid': isValid('address', 'city')
+          }"
+          type="text"
+          placeholder="Ciudad"
+          formControlName="city"
+        />
+        <div class="invalid-feedback">
+          Este campo es requerido
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Dirección</label>
+      <div class="col-8">
+        <input
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': isInvalid('address', 'address'),
+            'is-valid': isValid('address', 'address')
+          }"
+          type="text"
+          placeholder="Dirección"
+          formControlName="address"
+        />
+        <div class="invalid-feedback">
+          Este campo es requerido
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Hobbies</label>
+    <div class="input-group col-8">
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Agregar un hobby"
+        #hobby>
+      <button
+        class="btn btn-success"
+        type="button"
+        (click)="addHobby(hobby.value)">+</button>
+    </div>
+  </div>
+
+  <div *ngIf="getHobbies().controls.length > 0" class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="col-8">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Hobby</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="hobbies">
+          <tr *ngFor="let hobby of getHobbies().controls; let i=index">
+            <td>{{i + 1}}</td>
+            <td>{{hobby.value}}</td>
+            <td>
+              <button class="btn btn-outline-danger" (click)="deleteHobby(i)">Borrar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
     <div class="input-group col-md-8">
