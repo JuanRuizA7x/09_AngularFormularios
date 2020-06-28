@@ -16,7 +16,6 @@ export class ReactiveComponent implements OnInit {
 
   constructor( private formBuilder: FormBuilder, private countriesService: CountriesService ) {
     this.createForm();
-    console.log(this.formReactive.get('hobbies'));
     // this.loadData();
   }
 
