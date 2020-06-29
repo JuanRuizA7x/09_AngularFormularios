@@ -37,6 +37,7 @@ export class TemplateComponent implements OnInit {
     }
     console.log(form);
     console.log(form.value);
+    alert('Formulario enviado');
   }
 
 }

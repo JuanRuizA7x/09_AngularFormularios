@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, EmailValidator } from '@angular/forms';
 import { CountriesService } from '../../services/countries.service';
+import { ValidatorsService } from '../../services/validators.service';
 import { CountrieModel } from '../../models/countrie.model';
+import { TextAttribute } from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
   selector: 'app-reactive',
@@ -14,8 +16,13 @@ export class ReactiveComponent implements OnInit {
   formReactive: FormGroup;
   countries: CountrieModel[] = [];
 
-  constructor( private formBuilder: FormBuilder, private countriesService: CountriesService ) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private countriesService: CountriesService,
+    private validatorsService: ValidatorsService
+  ) {
     this.createForm();
+    // this.createListeners();
     // this.loadData();
   }
 
@@ -26,7 +33,7 @@ export class ReactiveComponent implements OnInit {
   createForm() {
     this.formReactive = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3), this.validatorsService.noHerrera]],
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       address: this.formBuilder.group({
         countrie: ['', Validators.required],
@@ -34,12 +41,27 @@ export class ReactiveComponent implements OnInit {
         city: ['', Validators.required],
         address: ['', Validators.required]
       }),
+      user: ['', Validators.required, this.validatorsService.existingUser],
+      password1: ['', [Validators.required, Validators.minLength(5)]],
+      password2: ['', [Validators.required, Validators.minLength(5)]],
       hobbies: this.formBuilder.array([])
+    }, {
+      validators: this.validatorsService.samePasswords('password1', 'password2')
+    });
+  }
+
+  createListeners() {
+    this.formReactive.valueChanges.subscribe( change => {
+      console.log(change);
+    });
+
+    this.formReactive.statusChanges.subscribe( status => {
+      console.log(status);
     });
   }
 
   loadData() {
-    this.formReactive.setValue({
+    this.formReactive.reset({
       name: 'Juan',
       lastName: 'Ruíz',
       email: 'juan.ruiz.22.03.00@gmail.com',
@@ -58,12 +80,12 @@ export class ReactiveComponent implements OnInit {
       Object.values(this.formReactive.controls).forEach(control => {
           control.markAllAsTouched();
       });
-      return;
+      // return;
     }
     console.log(this.formReactive);
     console.log(this.formReactive.value);
-    alert('Formulario enviado');
-    this.formReactive.reset();
+    // alert('Formulario enviado');
+    // this.formReactive.reset();
   }
 
   isValid(model: string, model1?: string) {
